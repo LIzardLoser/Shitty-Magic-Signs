@@ -1,0 +1,6 @@
+name: ShittyMagicSigns
+version: '${project.version}'
+main: me.lizard.shittymagicsigns.ShittyMagicSigns
+api-version: 1.18
+authors: [ LIzard ]
+description: ShittyMagicSigns is about signs with magic
