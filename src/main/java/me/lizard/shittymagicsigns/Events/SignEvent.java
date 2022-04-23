@@ -2,6 +2,7 @@ package me.lizard.shittymagicsigns.Events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -9,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class SignEvent implements Listener {
 
@@ -37,12 +39,19 @@ public class SignEvent implements Listener {
         }else if(mss && e.getLine(2).equalsIgnoreCase("Creeper")){
             e.getBlock().getWorld().spawnEntity(e.getBlock().getLocation(), EntityType.CREEPER);
             e.getBlock().breakNaturally();
-        }else if(mss && e.getLine(2).equalsIgnoreCase("Charged creeper")){
+        }else if(mss && e.getLine(2).equalsIgnoreCase("Charged creeper") || mss & e.getLine(2).equalsIgnoreCase("CC")){
             Creeper cc =(Creeper)e.getBlock().getWorld().spawnEntity(e.getBlock().getLocation(), EntityType.CREEPER);
             cc.setPowered(true);
             e.getBlock().breakNaturally();
         }else if(mss && e.getLine(2).equalsIgnoreCase("Skeleton")){
             e.getBlock().getWorld().spawnEntity(e.getBlock().getLocation(), EntityType.SKELETON);
+            e.getBlock().breakNaturally();
+        }else if (mss && e.getLine(2).equalsIgnoreCase("God Sword")){
+            ItemStack sword = new ItemStack(Material.NETHERITE_SWORD);
+            ItemMeta swordM = sword.getItemMeta();
+            swordM.addEnchant(Enchantment.DAMAGE_ALL, 5000, true);
+            sword.setItemMeta(swordM);
+            e.getBlock().getWorld().dropItemNaturally(e.getBlock().getLocation(), sword);
             e.getBlock().breakNaturally();
         }
     }
