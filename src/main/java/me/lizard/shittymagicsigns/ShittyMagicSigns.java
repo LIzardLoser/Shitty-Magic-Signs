@@ -13,7 +13,7 @@ public final class ShittyMagicSigns extends JavaPlugin {
         this.getLogger().info("Plugin Started");
 
         getServer().getPluginManager().registerEvents(new SignEvent(), this);
-        getServer().getPluginManager().registerEvents(new GiveSignOnNasmiWalk(), this);
+        //getServer().getPluginManager().registerEvents(new GiveSignOnNasmiWalk(), this);
 
         getCommand("helpsms").setExecutor(new HelpCommand());
 
