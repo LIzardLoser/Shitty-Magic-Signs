@@ -28,7 +28,7 @@ public class HelpCommand implements CommandExecutor {
                         ChatColor.AQUA + "Creeper",
                         ChatColor.AQUA + "Skeleton",
                         ChatColor.AQUA + "Spider",
-                        ChatColor.AQUA + "Charged Creeper",
+                        ChatColor.AQUA + "Charged Creeper" + "CC",
                         ChatColor.AQUA + "God Sword",
                         ChatColor.AQUA + "Chest",
                         ChatColor.AQUA + "Tree",
