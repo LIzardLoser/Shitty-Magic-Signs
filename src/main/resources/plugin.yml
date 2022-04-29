@@ -5,6 +5,6 @@ api-version: 1.18
 authors: [ LIzard ]
 description: ShittyMagicSigns is about signs with magic
 commands:
-  helpsms:
-    description: help for SHITTY MAGIC SIGNS
+  sms:
+    description: SMS Command
 

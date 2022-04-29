@@ -50,106 +50,109 @@ public class SignEvent implements Listener {
 
         Player p = e.getPlayer();
 
-        var mss = e.getLine(1).equalsIgnoreCase("Magic Sign");//mss = magic sign string
-        var gl = e.getLine(2);// gl == get line
+
+        var mss = e.line(1).equals("Magic Sign");//mss = magic sign string
+        var gl = e.line(2);// gl == get line
         var gw = e.getBlock().getWorld();//gw == get world
-        var bn = e.getBlock().breakNaturally();//bn == break naturally, to use, use bn = true
         var gb = e.getBlock();//gb == gets block
 
 
 
         if (p.isOp() || p.hasPermission("sms.sms") || p.getName().equals("Nasmi_")) {
+            if (mss){
+                e.getBlock().breakNaturally();
+                if (gl.equals("Diamond Block")) {// diamond block
 
-            if (mss && gl.equalsIgnoreCase("Diamond Block")) {// diamond block
+                    gb.setType(Material.DIAMOND_BLOCK);
 
-                bn = true;
-                gb.setType(Material.DIAMOND_BLOCK);
+                }
+                if (gl.equals("Gold Block")) {//gold block
 
-            } else if (mss && gl.equalsIgnoreCase("Gold Block")) {//gold block
+                    gb.setType(Material.GOLD_BLOCK);
 
-                bn = true;
-                gb.setType(Material.GOLD_BLOCK);
+                }
+                if (gl.equals("Gold")) {//gold ingot
 
-            } else if (mss && gl.equalsIgnoreCase("Gold")) {//gold ingot
+                    gw.dropItemNaturally(gb.getLocation(), new ItemStack(Material.GOLD_INGOT));
 
-                gw.dropItemNaturally(gb.getLocation(), new ItemStack(Material.GOLD_INGOT));
-                bn = true;
+                }
+                if (gl.equals("Diamond")) {//diamond
 
-            } else if (mss && gl.equalsIgnoreCase("Diamond")) {//diamond
+                    gw.dropItemNaturally(gb.getLocation(), new ItemStack(Material.DIAMOND));
 
-                gw.dropItemNaturally(gb.getLocation(), new ItemStack(Material.DIAMOND));
-                bn = true;
+                }
+                if (gl.equals("Zombie")) {
 
-            } else if (mss && gl.equalsIgnoreCase("Zombie")) {
+                    gw.spawnEntity(gb.getLocation(), EntityType.ZOMBIE);
 
-                gw.spawnEntity(gb.getLocation(), EntityType.ZOMBIE);
-                bn = true;
+                }
+                if (gl.equals("Creeper")) {
 
-            } else if (mss && gl.equalsIgnoreCase("Creeper")) {
+                    gw.spawnEntity(gb.getLocation(), EntityType.CREEPER);
 
-                gw.spawnEntity(gb.getLocation(), EntityType.CREEPER);
-                bn = true;
+                }
+                if (gl.equals("Charged creeper") || mss & e.getLine(2).equals("CC")) {
 
-            } else if (mss && gl.equalsIgnoreCase("Charged creeper") || mss & e.getLine(2).equalsIgnoreCase("CC")) {
+                    Creeper cc = (Creeper) gw.spawnEntity(gb.getLocation(), EntityType.CREEPER);
+                    cc.setPowered(true);
 
-                Creeper cc = (Creeper) gw.spawnEntity(gb.getLocation(), EntityType.CREEPER);
-                cc.setPowered(true);
-                bn = true;
+                }
+                if (gl.equals("Skeleton")) {
 
-            } else if (mss && gl.equalsIgnoreCase("Skeleton")) {
+                    gw.spawnEntity(gb.getLocation(), EntityType.SKELETON);
 
-                gw.spawnEntity(gb.getLocation(), EntityType.SKELETON);
-                bn = true;
+                }
+                if (gl.equals("God Sword")) {
 
-            } else if (mss && gl.equalsIgnoreCase("God Sword")) {
+                    gw.dropItemNaturally(gb.getLocation(), sword);
 
-                gw.dropItemNaturally(gb.getLocation(), sword);
-                bn = true;
+                }
+                if (gl.equals("spider")) {
 
-            } else if (mss && gl.equalsIgnoreCase("spider")) {
+                    gw.spawnEntity(gb.getLocation(), EntityType.SPIDER);
 
-                gw.spawnEntity(gb.getLocation(), EntityType.SPIDER);
-                bn = true;
+                }
+                if (gl.equals("Chest")){
 
-            } else if (mss && gl.equalsIgnoreCase("Chest")){
-
-                /* else if (mss && gl.equalsIgnoreCase("chest testing")) {
+                /*
+                if (gl.equals("chest testing")) {
                 gb.setType(Material.CHEST);
                 Chest c = (Chest) gb.getState();
                 var inv = c.getBlockInventory();
                 inv.setItem(0, sword);
                 }*/
 
-                gb.setType(Material.CHEST);
-                Chest c = (Chest) gb.getState();
-                Inventory inv = c.getBlockInventory();
-                inv.setItem(0, new ItemStack(Material.TOTEM_OF_UNDYING));
-                inv.setItem(1, new ItemStack(Material.TOTEM_OF_UNDYING));
-                inv.setItem(2, new ItemStack(Material.TOTEM_OF_UNDYING));
-                inv.setItem(3, new ItemStack(Material.TOTEM_OF_UNDYING));
-                inv.setItem(4, new ItemStack(Material.TOTEM_OF_UNDYING));
-                inv.setItem(5, new ItemStack(Material.TOTEM_OF_UNDYING));
-                inv.setItem(6, new ItemStack(Material.TOTEM_OF_UNDYING));
-                inv.setItem(7, new ItemStack(Material.TOTEM_OF_UNDYING));
-                inv.setItem(8, new ItemStack(Material.TOTEM_OF_UNDYING));
-                inv.setItem(18, e_mending);
-                inv.setItem(19, e_mending);
-                inv.setItem(20, e_mending);
-                inv.setItem(21, e_mending);
-                inv.setItem(22, e_mending);
-                inv.setItem(23, e_mending);
-                inv.setItem(24, e_mending);
-                inv.setItem(25, e_mending);
-                inv.setItem(26, e_mending);
+                    gb.setType(Material.CHEST);
+                    Chest c = (Chest) gb.getState();
+                    Inventory inv = c.getBlockInventory();
+                    inv.setItem(0, new ItemStack(Material.TOTEM_OF_UNDYING));
+                    inv.setItem(1, new ItemStack(Material.TOTEM_OF_UNDYING));
+                    inv.setItem(2, new ItemStack(Material.TOTEM_OF_UNDYING));
+                    inv.setItem(3, new ItemStack(Material.TOTEM_OF_UNDYING));
+                    inv.setItem(4, new ItemStack(Material.TOTEM_OF_UNDYING));
+                    inv.setItem(5, new ItemStack(Material.TOTEM_OF_UNDYING));
+                    inv.setItem(6, new ItemStack(Material.TOTEM_OF_UNDYING));
+                    inv.setItem(7, new ItemStack(Material.TOTEM_OF_UNDYING));
+                    inv.setItem(8, new ItemStack(Material.TOTEM_OF_UNDYING));
+                    inv.setItem(18, e_mending);
+                    inv.setItem(19, e_mending);
+                    inv.setItem(20, e_mending);
+                    inv.setItem(21, e_mending);
+                    inv.setItem(22, e_mending);
+                    inv.setItem(23, e_mending);
+                    inv.setItem(24, e_mending);
+                    inv.setItem(25, e_mending);
+                    inv.setItem(26, e_mending);
 
-            }else if (mss && gl.equalsIgnoreCase("Tree")){
+                }
+                if (gl.equals("Tree")){
 
-                bn = true;
-                gw.generateTree(gb.getLocation(), TreeType.TREE);
+                    gw.generateTree(gb.getLocation(), TreeType.TREE);
 
+                }
+            }else{
+                return;
             }
-
-
         }
 
     }
