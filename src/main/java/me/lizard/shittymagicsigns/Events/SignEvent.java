@@ -1,9 +1,12 @@
 package me.lizard.shittymagicsigns.Events;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Creeper;
@@ -51,8 +54,8 @@ public class SignEvent implements Listener {
         Player p = e.getPlayer();
 
 
-        var mss = e.line(1).equals("Magic Sign");//mss = magic sign string
-        var gl = e.line(2);// gl == get line
+        var mss = e.getLine(1).equalsIgnoreCase("Magic Sign");//mss = magic sign string
+        var gl = e.getLine(2);// gl == get line
         var gw = e.getBlock().getWorld();//gw == get world
         var gb = e.getBlock();//gb == gets block
 
@@ -61,61 +64,61 @@ public class SignEvent implements Listener {
         if (p.isOp() || p.hasPermission("sms.sms") || p.getName().equals("Nasmi_")) {
             if (mss){
                 e.getBlock().breakNaturally();
-                if (gl.equals("Diamond Block")) {// diamond block
+                if (gl.equalsIgnoreCase("Diamond Block")) {// diamond block
 
                     gb.setType(Material.DIAMOND_BLOCK);
 
                 }
-                if (gl.equals("Gold Block")) {//gold block
+                if (gl.equalsIgnoreCase("Gold Block")) {//gold block
 
                     gb.setType(Material.GOLD_BLOCK);
 
                 }
-                if (gl.equals("Gold")) {//gold ingot
+                if (gl.equalsIgnoreCase("Gold")) {//gold ingot
 
                     gw.dropItemNaturally(gb.getLocation(), new ItemStack(Material.GOLD_INGOT));
 
                 }
-                if (gl.equals("Diamond")) {//diamond
+                if (gl.equalsIgnoreCase("Diamond")) {//diamond
 
                     gw.dropItemNaturally(gb.getLocation(), new ItemStack(Material.DIAMOND));
 
                 }
-                if (gl.equals("Zombie")) {
+                if (gl.equalsIgnoreCase("Zombie")) {
 
                     gw.spawnEntity(gb.getLocation(), EntityType.ZOMBIE);
 
                 }
-                if (gl.equals("Creeper")) {
+                if (gl.equalsIgnoreCase("Creeper")) {
 
                     gw.spawnEntity(gb.getLocation(), EntityType.CREEPER);
 
                 }
-                if (gl.equals("Charged creeper") || mss & e.getLine(2).equals("CC")) {
+                if (gl.equalsIgnoreCase("Charged creeper") || mss & e.getLine(2).equalsIgnoreCase("CC")) {
 
                     Creeper cc = (Creeper) gw.spawnEntity(gb.getLocation(), EntityType.CREEPER);
                     cc.setPowered(true);
 
                 }
-                if (gl.equals("Skeleton")) {
+                if (gl.equalsIgnoreCase("Skeleton")) {
 
                     gw.spawnEntity(gb.getLocation(), EntityType.SKELETON);
 
                 }
-                if (gl.equals("God Sword")) {
+                if (gl.equalsIgnoreCase("God Sword")) {
 
                     gw.dropItemNaturally(gb.getLocation(), sword);
 
                 }
-                if (gl.equals("spider")) {
+                if (gl.equalsIgnoreCase("spider")) {
 
                     gw.spawnEntity(gb.getLocation(), EntityType.SPIDER);
 
                 }
-                if (gl.equals("Chest")){
+                if (gl.equalsIgnoreCase("Chest")){
 
                 /*
-                if (gl.equals("chest testing")) {
+                if (gl.equalsIgnoreCase()("chest testing")) {
                 gb.setType(Material.CHEST);
                 Chest c = (Chest) gb.getState();
                 var inv = c.getBlockInventory();
@@ -145,13 +148,42 @@ public class SignEvent implements Listener {
                     inv.setItem(26, e_mending);
 
                 }
-                if (gl.equals("Tree")){
+                if (gl.equalsIgnoreCase("Tree")){
 
-                    gw.generateTree(gb.getLocation(), TreeType.TREE);
+                    Biome biome = gw.getBiome(gb.getLocation());
+                    if (biome.name().contains("JUNGLE")){
+                        gw.generateTree(gb.getLocation() ,TreeType.SMALL_JUNGLE);
+                    }else if (biome.name().contains("PLAINS")){
+                        gw.generateTree(gb.getLocation(), TreeType.TREE);
+                    }else if (biome.name().contains("FOREST")){
+                        gw.generateTree(gb.getLocation(), TreeType.TREE);
+                    }else if (biome.name().contains("TAIGA")){
+                        gw.generateTree(gb.getLocation(), TreeType.REDWOOD);
+                    }else {
+                        gw.generateTree(gb.getLocation(), TreeType.TREE);
+                    }
 
                 }
-            }else{
-                return;
+                if (gl.equalsIgnoreCase("feed")){
+                    p.setFoodLevel(60);
+                }
+                if (gl.equalsIgnoreCase("god")){
+
+                    p.setInvulnerable(true);
+                    p.sendMessage(ChatColor.GOLD+"[ShittyMagicSigns] - Set God");
+
+                }
+                if (gl.equalsIgnoreCase("ungod")){
+
+                    p.setInvulnerable(false);
+                    p.sendMessage(ChatColor.GOLD+"[ShittyMagicSigns] - Set UnGod");
+
+                }
+                if (gl.equalsIgnoreCase("heal")){
+
+                    p.setHealth(20.0);
+
+                }
             }
         }
 

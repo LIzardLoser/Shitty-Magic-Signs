@@ -2,7 +2,7 @@ package me.lizard.shittymagicsigns;
 
 import me.lizard.shittymagicsigns.Commands.HelpCommand;
 import me.lizard.shittymagicsigns.Events.SignEvent;
-import me.lizard.shittymagicsigns.Events.GiveSignOnNasmiWalk;
+import me.lizard.shittymagicsigns.Events.TreeDecayEvent;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,7 +21,7 @@ public final class ShittyMagicSigns extends JavaPlugin {
 
 
         getServer().getPluginManager().registerEvents(new SignEvent(), this);
-        //getServer().getPluginManager().registerEvents(new GiveSignOnNasmiWalk(), this);
+        getServer().getPluginManager().registerEvents(new TreeDecayEvent(), this);
 
         getCommand("sms").setExecutor(new HelpCommand());
 
