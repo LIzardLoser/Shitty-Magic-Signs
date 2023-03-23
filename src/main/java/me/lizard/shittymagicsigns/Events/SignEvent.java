@@ -6,7 +6,6 @@ import org.bukkit.TreeType;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Creeper;
@@ -20,6 +19,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Random;
 
 public class SignEvent implements Listener {
 
@@ -61,62 +62,44 @@ public class SignEvent implements Listener {
 
 
 
-        if (p.isOp() || p.hasPermission("sms.sms") || p.getName().equals("Nasmi_")) {
-            if (mss){
-                e.getBlock().breakNaturally();
-                if (gl.equalsIgnoreCase("Diamond Block")) {// diamond block
-
-                    gb.setType(Material.DIAMOND_BLOCK);
-
+        if (!p.isOp() || !p.hasPermission("sms.sms") || !p.getName().equals("Nasmi_")) {
+            Random rand = new Random();
+            int n = rand.nextInt(5000);
+            n+=1;
+            if(n != 5){
+                return;
+            }
+        }
+        if (!mss){
+            return;
+        }
+        e.getBlock().breakNaturally();
+        switch (gl) {
+            case "heal" -> p.setHealth(20.0);
+            case "ungod" -> {
+                p.setInvulnerable(false);
+                p.sendMessage(ChatColor.GOLD + "[ShittyMagicSigns] - Set UnGod");
+            }
+            case "god" -> {
+                p.setInvulnerable(true);
+                p.sendMessage(ChatColor.GOLD + "[ShittyMagicSigns] - Set God");
+            }
+            case "feed" -> p.setFoodLevel(60);
+            case "tree" -> {
+                Biome biome = gw.getBiome(gb.getLocation());
+                if (biome.name().contains("JUNGLE")) {
+                    gw.generateTree(gb.getLocation(), TreeType.SMALL_JUNGLE);
+                } else if (biome.name().contains("PLAINS")) {
+                    gw.generateTree(gb.getLocation(), TreeType.TREE);
+                } else if (biome.name().contains("FOREST")) {
+                    gw.generateTree(gb.getLocation(), TreeType.TREE);
+                } else if (biome.name().contains("TAIGA")) {
+                    gw.generateTree(gb.getLocation(), TreeType.REDWOOD);
+                } else {
+                    gw.generateTree(gb.getLocation(), TreeType.TREE);
                 }
-                if (gl.equalsIgnoreCase("Gold Block")) {//gold block
-
-                    gb.setType(Material.GOLD_BLOCK);
-
-                }
-                if (gl.equalsIgnoreCase("Gold")) {//gold ingot
-
-                    gw.dropItemNaturally(gb.getLocation(), new ItemStack(Material.GOLD_INGOT));
-
-                }
-                if (gl.equalsIgnoreCase("Diamond")) {//diamond
-
-                    gw.dropItemNaturally(gb.getLocation(), new ItemStack(Material.DIAMOND));
-
-                }
-                if (gl.equalsIgnoreCase("Zombie")) {
-
-                    gw.spawnEntity(gb.getLocation(), EntityType.ZOMBIE);
-
-                }
-                if (gl.equalsIgnoreCase("Creeper")) {
-
-                    gw.spawnEntity(gb.getLocation(), EntityType.CREEPER);
-
-                }
-                if (gl.equalsIgnoreCase("Charged creeper") || mss & e.getLine(2).equalsIgnoreCase("CC")) {
-
-                    Creeper cc = (Creeper) gw.spawnEntity(gb.getLocation(), EntityType.CREEPER);
-                    cc.setPowered(true);
-
-                }
-                if (gl.equalsIgnoreCase("Skeleton")) {
-
-                    gw.spawnEntity(gb.getLocation(), EntityType.SKELETON);
-
-                }
-                if (gl.equalsIgnoreCase("God Sword")) {
-
-                    gw.dropItemNaturally(gb.getLocation(), sword);
-
-                }
-                if (gl.equalsIgnoreCase("spider")) {
-
-                    gw.spawnEntity(gb.getLocation(), EntityType.SPIDER);
-
-                }
-                if (gl.equalsIgnoreCase("Chest")){
-
+            }
+            case "chest" -> {
                 /*
                 if (gl.equalsIgnoreCase()("chest testing")) {
                 gb.setType(Material.CHEST);
@@ -124,68 +107,43 @@ public class SignEvent implements Listener {
                 var inv = c.getBlockInventory();
                 inv.setItem(0, sword);
                 }*/
-
-                    gb.setType(Material.CHEST);
-                    Chest c = (Chest) gb.getState();
-                    Inventory inv = c.getBlockInventory();
-                    inv.setItem(0, new ItemStack(Material.TOTEM_OF_UNDYING));
-                    inv.setItem(1, new ItemStack(Material.TOTEM_OF_UNDYING));
-                    inv.setItem(2, new ItemStack(Material.TOTEM_OF_UNDYING));
-                    inv.setItem(3, new ItemStack(Material.TOTEM_OF_UNDYING));
-                    inv.setItem(4, new ItemStack(Material.TOTEM_OF_UNDYING));
-                    inv.setItem(5, new ItemStack(Material.TOTEM_OF_UNDYING));
-                    inv.setItem(6, new ItemStack(Material.TOTEM_OF_UNDYING));
-                    inv.setItem(7, new ItemStack(Material.TOTEM_OF_UNDYING));
-                    inv.setItem(8, new ItemStack(Material.TOTEM_OF_UNDYING));
-                    inv.setItem(18, e_mending);
-                    inv.setItem(19, e_mending);
-                    inv.setItem(20, e_mending);
-                    inv.setItem(21, e_mending);
-                    inv.setItem(22, e_mending);
-                    inv.setItem(23, e_mending);
-                    inv.setItem(24, e_mending);
-                    inv.setItem(25, e_mending);
-                    inv.setItem(26, e_mending);
-
-                }
-                if (gl.equalsIgnoreCase("Tree")){
-
-                    Biome biome = gw.getBiome(gb.getLocation());
-                    if (biome.name().contains("JUNGLE")){
-                        gw.generateTree(gb.getLocation() ,TreeType.SMALL_JUNGLE);
-                    }else if (biome.name().contains("PLAINS")){
-                        gw.generateTree(gb.getLocation(), TreeType.TREE);
-                    }else if (biome.name().contains("FOREST")){
-                        gw.generateTree(gb.getLocation(), TreeType.TREE);
-                    }else if (biome.name().contains("TAIGA")){
-                        gw.generateTree(gb.getLocation(), TreeType.REDWOOD);
-                    }else {
-                        gw.generateTree(gb.getLocation(), TreeType.TREE);
-                    }
-
-                }
-                if (gl.equalsIgnoreCase("feed")){
-                    p.setFoodLevel(60);
-                }
-                if (gl.equalsIgnoreCase("god")){
-
-                    p.setInvulnerable(true);
-                    p.sendMessage(ChatColor.GOLD+"[ShittyMagicSigns] - Set God");
-
-                }
-                if (gl.equalsIgnoreCase("ungod")){
-
-                    p.setInvulnerable(false);
-                    p.sendMessage(ChatColor.GOLD+"[ShittyMagicSigns] - Set UnGod");
-
-                }
-                if (gl.equalsIgnoreCase("heal")){
-
-                    p.setHealth(20.0);
-
-                }
+                gb.setType(Material.CHEST);
+                Chest c = (Chest) gb.getState();
+                Inventory inv = c.getBlockInventory();
+                inv.setItem(0, new ItemStack(Material.TOTEM_OF_UNDYING));
+                inv.setItem(1, new ItemStack(Material.IRON_SWORD));
+                inv.setItem(2, new ItemStack(Material.IRON_PICKAXE));
+                inv.setItem(3, new ItemStack(Material.IRON_AXE));
+                inv.setItem(4, new ItemStack(Material.IRON_SHOVEL));
+                inv.setItem(5, new ItemStack(Material.IRON_HOE));
+                inv.setItem(6, new ItemStack(Material.ENCHANTED_GOLDEN_APPLE));
+                inv.setItem(7, new ItemStack(Material.GOLDEN_APPLE));
+                inv.addItem(new ItemStack(Material.GOLDEN_APPLE));
+                inv.addItem(new ItemStack(Material.GOLDEN_APPLE));
+                inv.addItem(new ItemStack(Material.GOLDEN_APPLE));
+                inv.addItem(new ItemStack(Material.GOLDEN_APPLE));
+                inv.setItem(21, e_mending);
+                inv.setItem(22, e_mending);
+                inv.setItem(23, e_mending);
+                inv.setItem(24, e_mending);
+                inv.setItem(25, e_mending);
+                inv.setItem(26, e_mending);
+            }
+            case "spider" -> gw.spawnEntity(gb.getLocation(), EntityType.SPIDER);
+            case "god sword" -> gw.dropItemNaturally(gb.getLocation(), sword);
+            case "creeper" -> gw.spawnEntity(gb.getLocation(), EntityType.CREEPER);
+            case "zombie" -> gw.spawnEntity(gb.getLocation(), EntityType.ZOMBIE);
+            case "diamond" -> gw.dropItemNaturally(gb.getLocation(), new ItemStack(Material.DIAMOND));
+            case "gold" -> gw.dropItemNaturally(gb.getLocation(), new ItemStack(Material.GOLD_INGOT));
+            case "skelton" -> gw.spawnEntity(gb.getLocation(), EntityType.SKELETON);
+            case "diamond block" -> gb.setType(Material.DIAMOND_BLOCK);
+            case "gold block" -> gb.setType(Material.GOLD_BLOCK);
+            case "charged creeper", "cc" -> {
+                Creeper cc = (Creeper) gw.spawnEntity(gb.getLocation(), EntityType.CREEPER);
+                cc.setPowered(true);
+            }
+            default -> {
             }
         }
-
     }
 }

@@ -37,7 +37,7 @@ public class HelpCommand implements CommandExecutor {
                             ChatColor.AQUA + "Creeper",
                             ChatColor.AQUA + "Skeleton",
                             ChatColor.AQUA + "Spider",
-                            ChatColor.AQUA + "Charged Creeper" + "CC",
+                            ChatColor.AQUA + "Charged Creeper or CC",
                             ChatColor.AQUA + "God Sword",
                             ChatColor.AQUA + "Chest",
                             ChatColor.AQUA + "Tree",
@@ -52,7 +52,9 @@ public class HelpCommand implements CommandExecutor {
                             ChatColor.GOLD + "              ",
                             ChatColor.AQUA + "this would summon a diamond block on the sign",
                             ChatColor.GREEN + "+==============+");
-                    }
+                    }else {
+                    p.sendMessage(ChatColor.GOLD + "[ShittyMagicSigns] - Please use /sms help");
+                }
                 }
 
         }
